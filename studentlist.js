@@ -17,6 +17,9 @@ let slytherinPressed = false;
 let hufflepuffPressed = false;
 let gryffindorPressed = false;
 let ravenclawPressed = false;
+let allHousesPressed = false;
+let namePressed = false;
+let lastnamePressed = false;
 
 window.addEventListener("DOMContentLoaded", init);
 
@@ -49,37 +52,75 @@ function prepareObjects(jsonData) {
     //console.table(allStudents);
   });
 
+  btnFirstname.addEventListener("click", sortNames);
+  btnLastname.addEventListener("click", sortLastnames);
   btnSlytherin.addEventListener("click", filterSlytherins);
   btnHufflepuff.addEventListener("click", filterHufflepuffs);
   btnRavenclaw.addEventListener("click", filterRavenclaws);
   btnGryffindor.addEventListener("click", filterGryffindors);
+  btnAllHouses.addEventListener("click", filterAllHouses);
 }
 
 function filterList() {
-  allStudents.sort(nameSort);
   let filteredList = allStudents;
   if (slytherinPressed === true) {
     filteredList = allStudents.filter(onlySlytherin);
-    console.table(filteredList);
+    if (namePressed === true) {
+      filteredList.sort(nameSort);
+    } else if (lastnamePressed === true) {
+      filteredList.sort(lastnameSort);
+    }
   } else if (hufflepuffPressed === true) {
     filteredList = allStudents.filter(onlyHufflepuff);
-    console.table(filteredList);
+    if (namePressed === true) {
+      filteredList.sort(nameSort);
+    } else if (lastnamePressed === true) {
+      filteredList.sort(lastnameSort);
+    }
   } else if (gryffindorPressed === true) {
     filteredList = allStudents.filter(onlyGryffindor);
-    console.table(filteredList);
+    if (namePressed === true) {
+      filteredList.sort(nameSort);
+    } else if (lastnamePressed === true) {
+      filteredList.sort(lastnameSort);
+    }
   } else if (ravenclawPressed === true) {
     filteredList = allStudents.filter(onlyRavenclaw);
-    console.table(filteredList);
+    if (namePressed === true) {
+      filteredList.sort(nameSort);
+    } else if (lastnamePressed === true) {
+      filteredList.sort(lastnameSort);
+    }
+  } else if (allHousesPressed === true) {
+    filteredList = allStudents;
+    if (namePressed === true) {
+      filteredList.sort(nameSort);
+    } else if (lastnamePressed === true) {
+      filteredList.sort(lastnameSort);
+    }
   }
+
   console.table(filteredList);
 
   displayList(filteredList);
-  //setting welcher Filter
+}
+
+function lastnameSort(a, b) {
+  //"ape" < "cat" true, weil es alphabetisch zuerst kommt
+  if (a.lastname < b.lastname) {
+    return -1;
+  } else {
+    return 1;
+  }
 }
 
 function filterSlytherins() {
   slytherinPressed = true;
-  console.log(slytherinPressed);
+  filterList();
+}
+
+function filterAllHouses() {
+  allHousesPressed = true;
   filterList();
 }
 
@@ -97,8 +138,17 @@ function filterRavenclaws() {
   filterList();
 }
 
+function sortNames() {
+  namePressed = true;
+  filterList();
+}
+
+function sortLastnames() {
+  lastnamePressed = true;
+  filterList();
+}
+
 function onlySlytherin(student) {
-  console.log(student.house);
   return student.house === "Slytherin";
 }
 
