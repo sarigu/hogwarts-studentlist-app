@@ -1,3 +1,5 @@
+//Variables
+
 let jsonData;
 let jsonList = "http://petlatkea.dk/2019/hogwarts/students.json";
 let allStudents = new Array();
@@ -8,19 +10,17 @@ let filtering_direction = "";
 
 window.addEventListener("DOMContentLoaded", init);
 
+//Functions
+
 function init() {
   loadJSON();
   // register sort-buttons
   document.querySelector("#sorting").addEventListener("click", clickSort);
-
   //register filter-buttons
-
   document.querySelector("#filtering").addEventListener("click", clickFilter);
-
-  // register remove-button //eventlistener für die ganze liste egal wo man hin klickt
+  // register remove-button
   document.querySelector("#list").addEventListener("click", clickList);
-
-  //add unique id of each animal
+  //add unique id of each student
   allStudents.forEach(student => console.log(uuidv4()));
 
   prepareList(allStudents);
@@ -35,20 +35,16 @@ function loadJSON() {
 }
 
 function prepareObjects(jsonData) {
-  //console.log(jsonData);
   jsonData.forEach(jsonObject => {
     //create new object
     const student = Object.create(Student);
-
     //get data from json
     const parts = jsonObject.fullname.split(" ");
     student.name = parts[0];
     student.lastname = parts[1];
     student.house = jsonObject.house;
-
     //store student in gloabal array
     allStudents.push(student);
-    //console.table(allStudents);
   });
 
   prepareList();
@@ -92,7 +88,7 @@ function clickList(event) {
   // TODO: Figure out if a button was clicked
   let target = event.target;
   console.log(target.tagName);
-  //TD für studenten name
+  //TD für studenten
   if (target.tagName === "BUTTON") {
     console.log("es war ein button");
     // TODO: Figure out if it was a remove-button
@@ -107,12 +103,8 @@ function clickRemove(event) {
   // TODO: Figure out which element should be removed
   toBeRemoved = findStudent("Hannah");
 
-  //index von dem button der geklickt wurde
-  //dann was bei dem index im animal array ist splicen
-
   // TODO: Find the element index in the array
   const pos = allStudents.indexOf(toBeRemoved);
-
   // TODO: Splice that element from the array
   allStudents.splice(pos, 1);
   console.table(allStudents);
