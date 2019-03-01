@@ -4,6 +4,8 @@ let jsonData;
 let jsonList = "http://petlatkea.dk/2019/hogwarts/students.json";
 let allStudents = new Array();
 let Student = new Object();
+let allBtns = new Array();
+let expelledStudents = new Array();
 
 let sorting_direction = "";
 let filtering_direction = "";
@@ -18,8 +20,8 @@ function init() {
   document.querySelector("#sorting").addEventListener("click", clickSort);
   //register filter-buttons
   document.querySelector("#filtering").addEventListener("click", clickFilter);
-  // register remove-button
-  document.querySelector("#list").addEventListener("click", clickList);
+  // register remove-button and student clicks
+  document.querySelector("#list tbody").addEventListener("click", clickList);
 
   prepareList(allStudents);
 }
@@ -84,34 +86,37 @@ function clickFilter(event) {
 }
 
 function clickList(event) {
-  // console.log(event);
   // TODO: Figure out if a button was clicked
+
   let target = event.target;
   if (target.tagName === "BUTTON") {
-    console.log(target);
     // TODO: Figure out if it was a remove-button
-    if (target.dataset.action === "remove") {
-      console.log(target.id);
-      // TODO: If so, call clickRemove
-      clickRemove();
-    }
+    //console.log(target.className); //is the buttons id
+    let badStudent = target.className;
+    // TODO: If so, call clickRemove
+    clickRemove(badStudent);
   } else if (target.tagName === "TD") {
-    //Get ID und pop up window
-    showModal();
+    if (target.dataset.field === "lastname") {
+      let row = target.closest("tr");
+      let rowBtn = row.querySelector("#button");
+      showModal(rowBtn.className);
+    } else if (target.dataset.field === "name") {
+    }
   }
 }
 
-function showModal() {
-  let modal = document.querySelector("#modalbox");
-  modal.style.display = "block";
-  document.querySelector(".studentsName").innerHTML = "Hannah";
-  document.querySelector(".studentsLastname").innerHTML = "Abbott";
-  document.querySelector(".studentsHouse").innerHTML = "Hufflepuff";
+function showModal(student) {
+  console.log(student);
+  for (let i = 0; i < allStudents.length; i++) {
+    if (allStudents[i].id === student) {
+      alert("Name: " + allStudents[i].name + "House: " + allStudents[i].house);
+    }
+  }
 }
 
-function clickRemove(event) {
+function clickRemove(badStudent) {
   // TODO: Figure out which element should be removed
-  toBeRemoved = findStudent("Hannah");
+  toBeRemoved = findStudent(badStudent);
 
   // TODO: Find the element index in the array
   const pos = allStudents.indexOf(toBeRemoved);
@@ -119,11 +124,16 @@ function clickRemove(event) {
   allStudents.splice(pos, 1);
   //console.table(allStudents);
 
+  //add to expelled list
+  expelledStudents.push(toBeRemoved);
+  //console.table(expelledStudents);
+
   // Re-display the list
+  displayList(allStudents);
 }
 
-function findStudent(studentFirstname) {
-  return allStudents.find(obj => obj.name === studentFirstname);
+function findStudent(studentID) {
+  return allStudents.find(obj => obj.id === studentID);
 }
 
 function prepareList() {
@@ -194,8 +204,8 @@ function displayStudent(student) {
   clone.querySelector("[data-field=name]").textContent = student.name;
   clone.querySelector("[data-field=lastname]").textContent = student.lastname;
   clone.querySelector("[data-field=house]").textContent = student.house;
-  //btn.id = student.id;
-  //Student.id works
+
+  clone.querySelector("#button").className = student.id;
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
