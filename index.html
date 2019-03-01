@@ -9,13 +9,17 @@
   <body>
     <h1>Students 1991</h1>
     <h2>Sort by:</h2>
-    <button id="firstnameBtn">First Name</button>
-    <button id="lastnameBtn">Last Name</button>
-    <button id="slytherinBtn">Slytherin</button>
-    <button id="hufflepuffBtn">Hufflepuff</button>
-    <button id="ravenclawBtn">Ravenclaw</button>
-    <button id="gryffindorBtn">Gryffindor</button>
-    <button id="allHousesBtn">All Houses</button>
+    <div id="sorting">
+      <button data-action="sortFirstname">First Name</button>
+      <button data-action="sortLastname">Last Name</button>
+    </div>
+    <div id="filtering">
+      <button data-action="filterSlytherin">Slytherin</button>
+      <button data-action="filterHufflepuff">Hufflepuff</button>
+      <button data-action="filterRavenclaw">Ravenclaw</button>
+      <button data-action="filterGryffindor">Gryffindor</button>
+      <button data-action="sortHouses">All Houses</button>
+    </div>
     <table id="list">
       <thead>
         <tr>
@@ -34,7 +38,7 @@
         <td data-field="name">Name</td>
         <td data-field="lastname">Lastname</td>
         <td data-field="house">House</td>
-        <td><button id="removeBtn">Remove</button></td>
+        <td><button data-action="remove">Remove</button></td>
       </tr>
     </template>
 
