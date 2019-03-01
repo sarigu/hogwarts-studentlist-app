@@ -20,8 +20,6 @@ function init() {
   document.querySelector("#filtering").addEventListener("click", clickFilter);
   // register remove-button
   document.querySelector("#list").addEventListener("click", clickList);
-  //add unique id of each student
-  allStudents.forEach(student => console.log(uuidv4()));
 
   prepareList(allStudents);
 }
@@ -43,8 +41,10 @@ function prepareObjects(jsonData) {
     student.name = parts[0];
     student.lastname = parts[1];
     student.house = jsonObject.house;
+    student.id = uuidv4();
     //store student in gloabal array
     allStudents.push(student);
+    //console.table(allStudents);
   });
 
   prepareList();
@@ -87,16 +87,26 @@ function clickList(event) {
   // console.log(event);
   // TODO: Figure out if a button was clicked
   let target = event.target;
-  console.log(target.tagName);
-  //TD für studenten
   if (target.tagName === "BUTTON") {
-    console.log("es war ein button");
+    console.log(target);
     // TODO: Figure out if it was a remove-button
     if (target.dataset.action === "remove") {
+      console.log(target.id);
       // TODO: If so, call clickRemove
       clickRemove();
     }
+  } else if (target.tagName === "TD") {
+    //Get ID und pop up window
+    showModal();
   }
+}
+
+function showModal() {
+  let modal = document.querySelector("#modalbox");
+  modal.style.display = "block";
+  document.querySelector(".studentsName").innerHTML = "Hannah";
+  document.querySelector(".studentsLastname").innerHTML = "Abbott";
+  document.querySelector(".studentsHouse").innerHTML = "Hufflepuff";
 }
 
 function clickRemove(event) {
@@ -107,7 +117,7 @@ function clickRemove(event) {
   const pos = allStudents.indexOf(toBeRemoved);
   // TODO: Splice that element from the array
   allStudents.splice(pos, 1);
-  console.table(allStudents);
+  //console.table(allStudents);
 
   // Re-display the list
 }
@@ -184,8 +194,8 @@ function displayStudent(student) {
   clone.querySelector("[data-field=name]").textContent = student.name;
   clone.querySelector("[data-field=lastname]").textContent = student.lastname;
   clone.querySelector("[data-field=house]").textContent = student.house;
-
-  //clone.querySelector("button").dataset.id = animal.id; //siehe oben
+  //btn.id = student.id;
+  //Student.id works
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);

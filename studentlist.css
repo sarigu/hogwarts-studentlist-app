@@ -1,0 +1,10 @@
+#modalbox {
+  display: none; /* Hidden by default */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 10em; /* Full width */
+  height: 2em; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: lightcoral; /* Fallback color */
+}
