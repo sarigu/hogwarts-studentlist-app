@@ -5,13 +5,13 @@ let jsonList = "http://petlatkea.dk/2019/hogwarts/students.json";
 let allStudents = new Array();
 let Student = new Object(); //{name: "-student-name-",lastname: "-student-lastname-",house: "-student-house-"
 
-let btnFirstname = document.querySelector("#firstname");
-let btnLastname = document.querySelector("#lastname");
-let btnSlytherin = document.querySelector("#slytherin");
-let btnHufflepuff = document.querySelector("#hufflepuff");
-let btnRavenclaw = document.querySelector("#ravenclaw");
-let btnGryffindor = document.querySelector("#gryffindor");
-let btnAllHouses = document.querySelector("#allHouses");
+let firstnameBtn = document.querySelector("#firstnameBtn");
+let lastnameBtn = document.querySelector("#lastnameBtn");
+let slytherinBtn = document.querySelector("#slytherinBtn");
+let hufflepuffBtn = document.querySelector("#hufflepuffBtn");
+let ravenclawBtn = document.querySelector("#ravenclawBtn");
+let gryffindorBtn = document.querySelector("#gryffindorBtn");
+let allHousesBtn = document.querySelector("#allHousesBtn");
 
 let slytherinPressed = false;
 let hufflepuffPressed = false;
@@ -52,20 +52,25 @@ function prepareObjects(jsonData) {
     //console.table(allStudents);
   });
 
-  btnFirstname.addEventListener("click", sortNames);
-  btnLastname.addEventListener("click", sortLastnames);
-  btnSlytherin.addEventListener("click", filterSlytherins);
-  btnHufflepuff.addEventListener("click", filterHufflepuffs);
-  btnRavenclaw.addEventListener("click", filterRavenclaws);
-  btnGryffindor.addEventListener("click", filterGryffindors);
-  btnAllHouses.addEventListener("click", filterAllHouses);
+  firstnameBtn.addEventListener("click", sortNames);
+  lastnameBtn.addEventListener("click", sortLastnames);
+  slytherinBtn.addEventListener("click", filterSlytherins);
+  hufflepuffBtn.addEventListener("click", filterHufflepuffs);
+  ravenclawBtn.addEventListener("click", filterRavenclaws);
+  gryffindorBtn.addEventListener("click", filterGryffindors);
+  allHousesBtn.addEventListener("click", filterAllHouses);
+
+  filterList();
 }
 
 function filterList() {
   let filteredList = allStudents;
+  displayList(filteredList);
+
   if (slytherinPressed === true) {
     filteredList = allStudents.filter(onlySlytherin);
     if (namePressed === true) {
+      //clear list
       filteredList.sort(nameSort);
     } else if (lastnamePressed === true) {
       filteredList.sort(lastnameSort);
@@ -92,7 +97,13 @@ function filterList() {
       filteredList.sort(lastnameSort);
     }
   } else if (allHousesPressed === true) {
-    filteredList = allStudents;
+    filteredList = allStudents;˚
+    if (namePressed === true) {
+      filteredList.sort(nameSort);
+    } else if (lastnamePressed === true) {
+      filteredList.sort(lastnameSort);
+    }
+  } else {
     if (namePressed === true) {
       filteredList.sort(nameSort);
     } else if (lastnamePressed === true) {
@@ -101,7 +112,6 @@ function filterList() {
   }
 
   console.table(filteredList);
-
   displayList(filteredList);
 }
 
@@ -166,7 +176,7 @@ function onlyRavenclaw(student) {
 
 function displayList(list) {
   //clear list
-  document.querySelector("template#student").innerHTML = "";
+
   //build new list
   list.forEach(displayStudent);
 }
@@ -196,6 +206,20 @@ function nameSort(a, b) {
     return 1;
   }
 }
-//allStudents.sort(nameSort);
+
+//showModal
+function showModal(student) {
+  console.log("popup");
+  //let modal = document.createElement("div");
+  //let studentpotrait = document.createElement("image");
+  //modal.appendChild(studentpotrait);
+  //studentpotrait.src=""
+  //let title = document.create("p");
+  //p.textContent = student.firstname + student.lastname;
+  //studentpotrait.appenChild(title);
+  //if (stundent.house == ".."){
+  //modal.style.backgroundColor = "red";
+  //}
+}
 
 //splice zum removen bei expellen
