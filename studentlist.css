@@ -1,10 +1,15 @@
-#modalbox {
+#modal {
   display: none; /* Hidden by default */
   z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width: 10em; /* Full width */
+  width: 20em; /* Full width */
   height: 2em; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: lightcoral; /* Fallback color */
+  background-color: lightblue;
+}
+
+body {
+  background-color: aliceblue;
 }

@@ -8,6 +8,14 @@
   </head>
   <body>
     <h1>Students 1991</h1>
+    <div id="Nmbr">
+      <span id="totalNmbr"></span>
+      <span id="slytheringNmbr"></span>
+      <span id="gryffindorNmbr"></span>
+      <span id="hufflepuffNmbr"></span>
+      <span id="ravenclawNmbr"></span>
+      <span id="expeledNmbr"></span>
+    </div>
     <h2>Sort by:</h2>
     <div id="sorting">
       <button data-action="sortFirstname">First Name</button>
@@ -40,6 +48,13 @@
         <td data-field="house">House</td>
         <td><button id="button" data-action="remove">Remove</button></td>
       </tr>
+      <div id="modal">
+        <span id="closeBtn">x</span>
+        <img id="potrait" />
+        <span id="firstname"></span>
+        <span id="lastname"></span>
+        <span id="house"></span>
+      </div>
     </template>
 
     <script src="studentlist.js"></script>

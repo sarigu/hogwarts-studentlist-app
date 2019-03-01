@@ -2,6 +2,7 @@
 
 let jsonData;
 let jsonList = "http://petlatkea.dk/2019/hogwarts/students.json";
+let bloodtypeList = "http://petlatkea.dk/2019/hogwarts/families.json";
 let allStudents = new Array();
 let Student = new Object();
 let allBtns = new Array();
@@ -89,6 +90,8 @@ function clickList(event) {
   // TODO: Figure out if a button was clicked
 
   let target = event.target;
+  let row = target.closest("tr");
+  let rowBtn = row.querySelector("#button");
   if (target.tagName === "BUTTON") {
     // TODO: Figure out if it was a remove-button
     //console.log(target.className); //is the buttons id
@@ -97,21 +100,75 @@ function clickList(event) {
     clickRemove(badStudent);
   } else if (target.tagName === "TD") {
     if (target.dataset.field === "lastname") {
-      let row = target.closest("tr");
-      let rowBtn = row.querySelector("#button");
       showModal(rowBtn.className);
     } else if (target.dataset.field === "name") {
+      showModal(rowBtn.className);
     }
   }
 }
 
+function getStatus() {
+  let totalNmbr = allStudents.length + expelledStudents.length;
+  let slytherinNmbr = allStudents.filter(onlySlytherin).length;
+  let gryffindorNmbr = allStudents.filter(onlyGryffindor).length;
+  let hufflepuffNmbr = allStudents.filter(onlyHufflepuff).length;
+  let ravenclawNmbr = allStudents.filter(onlyRavenclaw).length;
+
+  document.querySelector("#totalNmbr").textContent =
+    "Total Number of students: " + totalNmbr;
+  document.querySelector("#slytheringNmbr").textContent =
+    "Slytherin: " + slytherinNmbr;
+  document.querySelector("#gryffindorNmbr").textContent =
+    "Gryffindor: " + gryffindorNmbr;
+  document.querySelector("#hufflepuffNmbr").textContent =
+    "Hufflepuff: " + hufflepuffNmbr;
+  document.querySelector("#ravenclawNmbr").textContent =
+    "Ravenclaw: " + ravenclawNmbr;
+  document.querySelector("#expeledNmbr").textContent =
+    "Students expeled: " + expelledStudents.length;
+}
+
 function showModal(student) {
-  console.log(student);
+  let imageArr = [
+    "images/brown_i.png",
+    "images/finnigan_s.png",
+    "images/granger_h.png",
+    "images/jones_m.png",
+    "images/longbottom_n.png",
+    "images/patil_p.png",
+    "images/potter_h.png",
+    "images/thomas_d.png",
+    "images/weasley_r.png"
+  ];
+
+  let modal = document.querySelector("#modal");
+  let nameSpan = document.querySelector("#firstname");
+  let lastNameSpan = document.querySelector("#lastname");
+  let houseSpan = document.querySelector("#house");
+  let img = document.querySelector("#potrait");
+
   for (let i = 0; i < allStudents.length; i++) {
     if (allStudents[i].id === student) {
-      alert("Name: " + allStudents[i].name + "House: " + allStudents[i].house);
+      img.src = imageArr[randomNmbr()];
+      nameSpan.textContent = "Name: " + allStudents[i].name;
+      lastNameSpan.textContent = "Lastname: " + allStudents[i].lastname;
+      if (allStudents[i].house === "Hufflepuff") {
+        houseSpan.textContent = "House: Hufflepuff";
+        modal.style.backgroundColor = "yellow";
+      } else if (allStudents[i].house === "Slytherin") {
+        modal.style.backgroundColor = "green";
+      } else if (allStudents[i].house === "Gryffindor") {
+        modal.style.backgroundColor = "red";
+      } else {
+        modal.style.backgroundColor = "darkblue";
+      }
     }
+    modal.style.display = "block";
   }
+}
+
+function randomNmbr() {
+  return Math.floor(Math.random() * 9);
 }
 
 function clickRemove(badStudent) {
@@ -209,6 +266,8 @@ function displayStudent(student) {
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
+
+  getStatus();
 }
 
 //hinschreiben von wem das code snippet ist
