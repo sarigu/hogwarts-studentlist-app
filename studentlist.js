@@ -14,6 +14,12 @@ let pureBlooded = new Array();
 let sorting_direction = "";
 let filtering_direction = "";
 
+let modal;
+let closeBtn;
+let sqaudBtn;
+let bloodtypeSpan;
+let houseSpan;
+
 window.addEventListener("DOMContentLoaded", init);
 
 //Functions
@@ -168,14 +174,17 @@ function showModal(studentID) {
     "images/weasley_r.png"
   ];
 
-  let modal = document.querySelector("#modal");
+  modal = document.querySelector("#modal");
   let nameSpan = document.querySelector("#firstname");
   let lastNameSpan = document.querySelector("#lastname");
-  let houseSpan = document.querySelector("#house");
+  houseSpan = document.querySelector("#house");
+  bloodtypeSpan = document.querySelector("#bloodtype");
   let img = document.querySelector("#potrait");
   let caption = document.querySelector("#caption");
-  let closeBtn = document.querySelector("#closeBtn");
+  closeBtn = document.querySelector("#closeBtn");
   closeBtn.addEventListener("click", closeModal);
+  sqaudBtn = document.querySelector("#squad");
+  sqaudBtn.addEventListener("click", addToSquad);
 
   for (let i = 0; i < allStudents.length; i++) {
     if (allStudents[i].id === studentID) {
@@ -183,14 +192,18 @@ function showModal(studentID) {
       caption.textContent = allStudents[i].name + allStudents[i].lastname;
       nameSpan.textContent = "Name: " + allStudents[i].name;
       lastNameSpan.textContent = "Lastname: " + allStudents[i].lastname;
+      bloodtypeSpan.textContent = "Bloodtype: " + allStudents[i].bloodtype;
       if (allStudents[i].house === "Hufflepuff") {
         houseSpan.textContent = "House: Hufflepuff";
         modal.style.backgroundColor = "yellow";
       } else if (allStudents[i].house === "Slytherin") {
+        houseSpan.textContent = "House: Slytherin";
         modal.style.backgroundColor = "green";
       } else if (allStudents[i].house === "Gryffindor") {
+        houseSpan.textContent = "House: Gryffindor";
         modal.style.backgroundColor = "red";
       } else {
+        houseSpan.textContent = "House: Ravenclaw";
         modal.style.backgroundColor = "darkblue";
       }
     }
@@ -203,7 +216,6 @@ function randomNmbr() {
 }
 
 function closeModal() {
-  let modal = document.querySelector("#modal");
   modal.style.display = "none";
 }
 
@@ -223,6 +235,25 @@ function clickRemove(badStudent) {
 
   // Re-display the list
   displayList(allStudents);
+}
+
+function addToSquad(student) {
+  let squadStatus = document.querySelector("#squadStatus");
+  console.log(houseSpan.textContent);
+  if (sqaudBtn.textContent === "Add to Inquisitorial Squad") {
+    if (bloodtypeSpan.textContent === "Bloodtype: pure") {
+      sqaudBtn.textContent = "Remove";
+      squadStatus.textContent = "Status: Inquisitorial Squad";
+    } else if (houseSpan.textContent === "House: Slytherin") {
+      sqaudBtn.textContent = "Remove";
+      squadStatus.textContent = "Status: Inquisitorial Squad";
+    } else {
+      console.log("cant' be added");
+    }
+  } else if (sqaudBtn.textContent === "Remove") {
+    sqaudBtn.textContent = "Add to Inquisitorial Squad";
+    squadStatus.textContent = "Status: Not in Inquisitorial Squad";
+  }
 }
 
 function findStudent(studentID) {
