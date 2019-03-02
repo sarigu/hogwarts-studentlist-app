@@ -8,6 +8,9 @@ let Student = new Object();
 let allBtns = new Array();
 let expelledStudents = new Array();
 
+let halfBlooded = new Array();
+let pureBlooded = new Array();
+
 let sorting_direction = "";
 let filtering_direction = "";
 
@@ -23,11 +26,15 @@ function init() {
   document.querySelector("#filtering").addEventListener("click", clickFilter);
   // register remove-button and student clicks
   document.querySelector("#list tbody").addEventListener("click", clickList);
-
-  prepareList(allStudents);
 }
 
 function loadJSON() {
+  fetch(bloodtypeList)
+    .then(response => response.json())
+    .then(bloodData => {
+      prepareBloodtypes(bloodData);
+    });
+
   fetch(jsonList)
     .then(response => response.json())
     .then(myJson => {
@@ -45,12 +52,33 @@ function prepareObjects(jsonData) {
     student.lastname = parts[1];
     student.house = jsonObject.house;
     student.id = uuidv4();
+    student.bloodtype = "muggle";
+    checkBloodtypes(student);
+
     //store student in gloabal array
     allStudents.push(student);
-    //console.table(allStudents);
   });
 
-  prepareList();
+  prepareList(allStudents);
+}
+
+function checkBloodtypes(student) {
+  for (
+    let i = 0, x = 0;
+    i < halfBlooded.length && x < pureBlooded.length;
+    i++, x++
+  ) {
+    if (student.lastname === halfBlooded[i]) {
+      student.bloodtype = "half";
+    } else if (student.lastname === pureBlooded[x]) {
+      student.bloodtype = "pure";
+    }
+  }
+}
+
+function prepareBloodtypes(data) {
+  data.half.forEach(name => halfBlooded.push(name));
+  data.pure.forEach(name2 => pureBlooded.push(name2));
 }
 
 function clickSort(event) {
@@ -269,6 +297,7 @@ function displayStudent(student) {
   clone.querySelector("[data-field=name]").textContent = student.name;
   clone.querySelector("[data-field=lastname]").textContent = student.lastname;
   clone.querySelector("[data-field=house]").textContent = student.house;
+  clone.querySelector("[data-field=bloodtype]").textContent = student.bloodtype;
 
   clone.querySelector("#button").className = student.id;
 
