@@ -90,8 +90,6 @@ function clickList(event) {
   // TODO: Figure out if a button was clicked
 
   let target = event.target;
-  let row = target.closest("tr");
-  let rowBtn = row.querySelector("#button");
   if (target.tagName === "BUTTON") {
     // TODO: Figure out if it was a remove-button
     //console.log(target.className); //is the buttons id
@@ -99,6 +97,7 @@ function clickList(event) {
     // TODO: If so, call clickRemove
     clickRemove(badStudent);
   } else if (target.tagName === "TD") {
+    let rowBtn = target.closest("tr").querySelector("#button");
     if (target.dataset.field === "lastname") {
       showModal(rowBtn.className);
     } else if (target.dataset.field === "name") {
@@ -128,7 +127,7 @@ function getStatus() {
     "Students expeled: " + expelledStudents.length;
 }
 
-function showModal(student) {
+function showModal(studentID) {
   let imageArr = [
     "images/brown_i.png",
     "images/finnigan_s.png",
@@ -146,10 +145,14 @@ function showModal(student) {
   let lastNameSpan = document.querySelector("#lastname");
   let houseSpan = document.querySelector("#house");
   let img = document.querySelector("#potrait");
+  let caption = document.querySelector("#caption");
+  let closeBtn = document.querySelector("#closeBtn");
+  closeBtn.addEventListener("click", closeModal);
 
   for (let i = 0; i < allStudents.length; i++) {
-    if (allStudents[i].id === student) {
+    if (allStudents[i].id === studentID) {
       img.src = imageArr[randomNmbr()];
+      caption.textContent = allStudents[i].name + allStudents[i].lastname;
       nameSpan.textContent = "Name: " + allStudents[i].name;
       lastNameSpan.textContent = "Lastname: " + allStudents[i].lastname;
       if (allStudents[i].house === "Hufflepuff") {
@@ -169,6 +172,11 @@ function showModal(student) {
 
 function randomNmbr() {
   return Math.floor(Math.random() * 9);
+}
+
+function closeModal() {
+  let modal = document.querySelector("#modal");
+  modal.style.display = "none";
 }
 
 function clickRemove(badStudent) {
