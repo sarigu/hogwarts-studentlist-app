@@ -73,6 +73,8 @@ function prepareObjects(jsonData) {
   me.bloodtype = "half";
   allStudents.push(me);
 
+  allStudents.forEach(student => changeBloodtype(student));
+
   prepareList(allStudents);
 }
 
@@ -294,8 +296,6 @@ function prepareList() {
     }
   });
 
-  changeBloodtype();
-
   let filteredList;
   if (filtering_direction === "slytherin") {
     filteredList = allStudents.filter(onlySlytherin);
@@ -333,7 +333,6 @@ function onlyGryffindor(student) {
 }
 
 function displayList(students) {
-  console.table(allStudents);
   document.querySelector("#list tbody").innerHTML = "";
   students.forEach(displayStudent);
 }
@@ -358,19 +357,16 @@ function displayStudent(student) {
   getStatus();
 }
 
-function changeBloodtype() {
+function changeBloodtype(student) {
   let bloodtypesArr = ["half", "muggle"];
-  for (let i = 0; i < allStudents.length; i++) {
-    if (allStudents[i].bloodtype === "pure") {
-      allStudents[i].bloodtype = bloodtypesArr[randomBloodType()];
-    } else if (
-      allStudents[i].bloodtype === "half" ||
-      allStudents[i].bloodtype === "muggle"
-    ) {
-      allStudents[i].bloodtype = "pure";
-    }
+
+  if (student.bloodtype === "pure") {
+    student.bloodtype = bloodtypesArr[randomBloodType()];
+  } else if (student.bloodtype === "half") {
+    student.bloodtype = "pure";
+  } else if (student.bloodtype === "muggle") {
+    student.bloodtype = "pure";
   }
-  console.table(allStudents);
 }
 
 function randomBloodType() {
