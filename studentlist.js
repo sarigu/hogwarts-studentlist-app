@@ -317,8 +317,12 @@ function prepareList() {
     filteredList = allStudents.filter(onlyGryffindor);
     displayList(filteredList);
   } else if (filtering_direction === "allHouses") {
-    displayList((filteredList = allStudents));
+    filteredList = allStudents;
+    filteredList.sort(houseSort);
+    displayList(filteredList);
   } else {
+    filteredList = allStudents;
+    filteredList.sort(houseSort);
     displayList((filteredList = allStudents));
   }
 }
@@ -387,4 +391,12 @@ function uuidv4() {
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+}
+
+function houseSort(a, b) {
+  if (a.house < b.house) {
+    return -1;
+  } else {
+    return 1;
+  }
 }
