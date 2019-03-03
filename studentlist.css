@@ -39,6 +39,7 @@
 #list {
   margin-left: 2.1em;
   grid-area: table-area;
+  margin-bottom: 4em;
 }
 
 #list td {
@@ -94,9 +95,10 @@ button {
 }
 
 #squadBtn {
-  background-color: rgb(247, 200, 197);
+  background-color: lavenderblush;
+  color: black;
   border: none;
-  color: white;
+
   padding: 0.2em 0.4em;
   text-align: center;
   text-decoration: none;
@@ -109,3 +111,53 @@ button {
   width: 20%;
   float: right;
 }
+
+#impossible {
+  width: 20em;
+  height: 7em;
+  background-color: lightblue;
+  top: 0;
+  left: 0;
+  position: absolute;
+  margin-left: 28em;
+  margin-top: 18em;
+  display: none;
+}
+
+/*This is a slightly modified code snippet from here: https://codepen.io/matchboxhero/pen/JrLJeb?editors=1100*/
+#snow {
+  position: absolute;
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.snow .svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#snow-top-layer {
+  transform: translateY(-768px);
+  animation: fall 5.5s linear;
+  fill: lemonchiffon;
+}
+
+#snow-bottom-layer {
+  transform: translateY(-768px);
+  fill: lemonchiffon;
+  animation: fall 8s linear;
+}
+
+@keyframes fall {
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* End of code snippet from here: https://codepen.io/matchboxhero/pen/JrLJeb?editors=1100*/

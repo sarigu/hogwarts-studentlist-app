@@ -5,7 +5,7 @@ let jsonList = "http://petlatkea.dk/2019/hogwarts/students.json";
 let bloodtypeList = "http://petlatkea.dk/2019/hogwarts/families.json";
 let allStudents = new Array();
 let Student = new Object();
-let allBtns = new Array();
+//all btns gelöscht
 let expelledStudents = new Array();
 
 let halfBlooded = new Array();
@@ -75,7 +75,7 @@ function prepareObjects(jsonData) {
     allStudents.push(student);
   });
 
-  allStudents.forEach(student => changeBloodtype(student));
+  allStudents.forEach(student => hackBloodtype(student));
 
   prepareList(allStudents);
 }
@@ -141,7 +141,14 @@ function clickList(event) {
   let target = event.target;
   if (target.tagName === "BUTTON") {
     if (findSari(target.className) == true) {
-      alert("das geht nicht!");
+      let snow = document.querySelector("#snow");
+      let impossibleDisplay = document.querySelector("#impossible");
+      impossibleDisplay.style.display = "block";
+      snow.style.display = "block";
+      setTimeout(() => {
+        snow.style.display = "none";
+        impossibleDisplay.style.display = "none";
+      }, 5000);
     } else {
       clickRemove(target.className);
     }
@@ -155,23 +162,23 @@ function clickList(event) {
   }
 }
 
-function getStatus() {
-  let totalNmbr = allStudents.length + expelledStudents.length;
-  let slytherinNmbr = allStudents.filter(onlySlytherin).length;
-  let gryffindorNmbr = allStudents.filter(onlyGryffindor).length;
-  let hufflepuffNmbr = allStudents.filter(onlyHufflepuff).length;
-  let ravenclawNmbr = allStudents.filter(onlyRavenclaw).length;
+function getCount() {
+  let countTotal = allStudents.length + expelledStudents.length;
+  let countSlytherin = allStudents.filter(onlySlytherin).length;
+  let countGryffindor = allStudents.filter(onlyGryffindor).length;
+  let countHufflepuff = allStudents.filter(onlyHufflepuff).length;
+  let countRavenclaw = allStudents.filter(onlyRavenclaw).length;
 
   document.querySelector("#totalNmbr").textContent =
-    "Students in total: " + totalNmbr;
+    "Students in total: " + countTotal;
   document.querySelector("#slytheringNmbr").textContent =
-    "Slytherin: " + slytherinNmbr;
+    "Slytherin: " + countSlytherin;
   document.querySelector("#gryffindorNmbr").textContent =
-    "Gryffindor: " + gryffindorNmbr;
+    "Gryffindor: " + countGryffindor;
   document.querySelector("#hufflepuffNmbr").textContent =
-    "Hufflepuff: " + hufflepuffNmbr;
+    "Hufflepuff: " + countHufflepuff;
   document.querySelector("#ravenclawNmbr").textContent =
-    "Ravenclaw: " + ravenclawNmbr;
+    "Ravenclaw: " + countRavenclaw;
   document.querySelector("#expeledNmbr").textContent =
     "Students expeled: " + expelledStudents.length;
 }
@@ -377,10 +384,10 @@ function displayStudent(student) {
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 
-  getStatus();
+  getCount();
 }
 
-function changeBloodtype(student) {
+function hackBloodtype(student) {
   let bloodtypesArr = ["half", "muggle"];
 
   if (student.bloodtype === "pure") {
