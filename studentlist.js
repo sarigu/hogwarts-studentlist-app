@@ -3,11 +3,11 @@
 let jsonData;
 let jsonList = "http://petlatkea.dk/2019/hogwarts/students.json";
 let bloodtypeList = "http://petlatkea.dk/2019/hogwarts/families.json";
-let allStudents = new Array();
-let Student = new Object();
-//all btns gelöscht
-let expelledStudents = new Array();
 
+let Student = new Object();
+
+let allStudents = new Array();
+let expelledStudents = new Array();
 let halfBlooded = new Array();
 let pureBlooded = new Array();
 
@@ -20,9 +20,9 @@ let sqaudBtn;
 let bloodtypeSpan;
 let houseSpan;
 
-window.addEventListener("DOMContentLoaded", init);
-
 //Functions
+
+window.addEventListener("DOMContentLoaded", init);
 
 function init() {
   loadJSON();
@@ -30,7 +30,7 @@ function init() {
   document.querySelector("#sorting").addEventListener("click", clickSort);
   //register filter-buttons
   document.querySelector("#filtering").addEventListener("click", clickFilter);
-  // register remove-button and student clicks
+  // register remove-button and clicks on students
   document.querySelector("#list tbody").addEventListener("click", clickList);
 }
 
@@ -49,6 +49,7 @@ function loadJSON() {
 }
 
 function prepareObjects(jsonData) {
+  //add myself
   const me = new Object();
   me.name = "Sari";
   me.lastname = "Guci";
@@ -57,10 +58,11 @@ function prepareObjects(jsonData) {
   me.bloodtype = "half";
   allStudents.push(me);
 
+  //"massage" data from JSON file
   jsonData.forEach(jsonObject => {
     //create new object
     const student = Object.create(Student);
-    //get data from json
+    //get data from json and set properties
     const parts = jsonObject.fullname.split(" ");
     student.name = parts[0];
     student.lastname = parts[1];
@@ -75,6 +77,7 @@ function prepareObjects(jsonData) {
     allStudents.push(student);
   });
 
+  //hack bloodtype for each student
   allStudents.forEach(student => hackBloodtype(student));
 
   prepareList(allStudents);
@@ -102,11 +105,9 @@ function prepareBloodtypes(data) {
 function clickSort(event) {
   const action = event.target.dataset.action;
   if (action === "sortFirstname") {
-    //event.preventDefault(); //damit der link nicht gefolt wird
     sorting_direction = "firstname";
     prepareList();
   } else if (action === "sortLastname") {
-    // event.preventDefault();
     sorting_direction = "lastname";
     prepareList();
   } else if (action === "sortHouses") {
@@ -136,11 +137,12 @@ function clickFilter(event) {
 }
 
 function clickList(event) {
-  // TODO: Figure out if a button was clicked
-
   let target = event.target;
+  //to figure out if a button was clicked
   if (target.tagName === "BUTTON") {
+    //To figure out if I should be expelled
     if (findSari(target.className) == true) {
+      //start visual effects
       let snow = document.querySelector("#snow");
       let impossibleDisplay = document.querySelector("#impossible");
       impossibleDisplay.style.display = "block";
@@ -152,6 +154,7 @@ function clickList(event) {
     } else {
       clickRemove(target.className);
     }
+    //to figure out if a student was clicked
   } else if (target.tagName === "TD") {
     let rowBtn = target.closest("tr").querySelector("#button");
     if (target.dataset.field === "lastname") {
@@ -163,6 +166,7 @@ function clickList(event) {
 }
 
 function getCount() {
+  //get number of students in total, in each house and expelled
   let countTotal = allStudents.length + expelledStudents.length;
   let countSlytherin = allStudents.filter(onlySlytherin).length;
   let countGryffindor = allStudents.filter(onlyGryffindor).length;
@@ -184,6 +188,7 @@ function getCount() {
 }
 
 function showModal(studentID) {
+  //variables
   let imageArr = [
     "images/brown_i.png",
     "images/finnigan_s.png",
@@ -205,8 +210,10 @@ function showModal(studentID) {
   let img = document.querySelector("#potrait");
   let caption = document.querySelector("#caption");
   closeBtn = document.querySelector("#closeBtn");
-  closeBtn.addEventListener("click", closeModal);
   sqaudBtn = document.querySelector("#squadBtn");
+
+  //add event listener
+  closeBtn.addEventListener("click", closeModal);
   sqaudBtn.addEventListener("click", addToSquad);
 
   for (let i = 0; i < allStudents.length; i++) {
@@ -249,24 +256,19 @@ function closeModal() {
 function clickRemove(badStudent) {
   // TODO: Figure out which element should be removed
   toBeRemoved = findStudent(badStudent);
-
   // TODO: Find the element index in the array
   const pos = allStudents.indexOf(toBeRemoved);
   // TODO: Splice that element from the array
   allStudents.splice(pos, 1);
-  //console.table(allStudents);
-
-  //add to expelled list
+  //Add  student to expelled list
   expelledStudents.push(toBeRemoved);
-  //console.table(expelledStudents);
-
-  // Re-display the list
   displayList(allStudents);
 }
 
 function addToSquad(student) {
   let squadStatus = document.querySelector("#squadStatus");
 
+  //TODO: Figure out if "Add"- button was clicked
   if (sqaudBtn.textContent === "Add to Inquisitorial Squad") {
     if (bloodtypeSpan.textContent === "Bloodtype: pure") {
       sqaudBtn.textContent = "Remove";
@@ -285,6 +287,9 @@ function addToSquad(student) {
     } else {
       alert("can't be added to  Inquisitorial Squad");
     }
+  } else if (sqaudBtn.textContent === "Remove") {
+    sqaudBtn.textContent = "Add to Inquisitorial Squad";
+    squadStatus.textContent = "Status: Not in Inquisitorial Squad";
   }
 }
 

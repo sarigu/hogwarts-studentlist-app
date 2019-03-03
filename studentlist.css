@@ -115,13 +115,18 @@ button {
 #impossible {
   width: 20em;
   height: 7em;
-  background-color: lightblue;
+  background-color: white;
   top: 0;
   left: 0;
   position: absolute;
   margin-left: 28em;
   margin-top: 18em;
   display: none;
+}
+
+#impossible p {
+  text-align: center;
+  margin-top: 2.6em;
 }
 
 /*This is a slightly modified code snippet from here: https://codepen.io/matchboxhero/pen/JrLJeb?editors=1100*/
@@ -142,13 +147,13 @@ button {
   height: 100%;
 }
 
-#snow-top-layer {
+#snowToplayer {
   transform: translateY(-768px);
   animation: fall 5.5s linear;
   fill: lemonchiffon;
 }
 
-#snow-bottom-layer {
+#snowBottomlayer {
   transform: translateY(-768px);
   fill: lemonchiffon;
   animation: fall 8s linear;
