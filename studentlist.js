@@ -49,6 +49,14 @@ function loadJSON() {
 }
 
 function prepareObjects(jsonData) {
+  const me = new Object();
+  me.name = "Sari";
+  me.lastname = "Guci";
+  me.house = "Hufflepuff";
+  me.id = uuidv4();
+  me.bloodtype = "half";
+  allStudents.push(me);
+
   jsonData.forEach(jsonObject => {
     //create new object
     const student = Object.create(Student);
@@ -58,30 +66,24 @@ function prepareObjects(jsonData) {
     student.lastname = parts[1];
     student.house = jsonObject.house;
     student.id = uuidv4();
-    student.bloodtype = "muggle";
-    checkBloodtypes(student);
+    checkBloodtype(student);
+    if (student.bloodtype === undefined) {
+      student.bloodtype = "muggle";
+    }
 
     //store student in gloabal array
     allStudents.push(student);
   });
-
-  const me = new Object();
-  me.name = "Sari";
-  me.lastname = "Guci";
-  me.house = "Hufflepuff";
-  me.id = uuidv4();
-  me.bloodtype = "half";
-  allStudents.push(me);
 
   allStudents.forEach(student => changeBloodtype(student));
 
   prepareList(allStudents);
 }
 
-function checkBloodtypes(student) {
+function checkBloodtype(student) {
   for (
     let i = 0, x = 0;
-    i < halfBlooded.length && x < pureBlooded.length;
+    i < halfBlooded.length, x < pureBlooded.length;
     i++, x++
   ) {
     if (student.lastname === halfBlooded[i]) {
