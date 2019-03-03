@@ -85,6 +85,21 @@ function prepareObjects(jsonData) {
   prepareList(allStudents);
 }
 
+//code snippet from here: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+function prepareBloodtypes(data) {
+  //store lastname in global arrays
+  data.half.forEach(name => halfBlooded.push(name));
+  data.pure.forEach(name2 => pureBlooded.push(name2));
+}
+
 function checkBloodtype(student) {
   //check if lastname is on one of the lists we got from the JSON file
   for (
@@ -100,10 +115,20 @@ function checkBloodtype(student) {
   }
 }
 
-function prepareBloodtypes(data) {
-  //store lastname in global arrays
-  data.half.forEach(name => halfBlooded.push(name));
-  data.pure.forEach(name2 => pureBlooded.push(name2));
+function hackBloodtype(student) {
+  let bloodtypesArr = ["half", "muggle"];
+
+  if (student.bloodtype === "pure") {
+    student.bloodtype = bloodtypesArr[randomBloodType()]; //get random bloodtype from array
+  } else if (student.bloodtype === "half") {
+    student.bloodtype = "pure";
+  } else if (student.bloodtype === "muggle") {
+    student.bloodtype = "pure";
+  }
+}
+
+function randomBloodType() {
+  return Math.floor(Math.random() * 2);
 }
 
 function clickSort(event) {
@@ -139,178 +164,6 @@ function clickFilter(event) {
   } else {
     filtering_direction = "allHouses";
     prepareList();
-  }
-}
-
-function clickList(event) {
-  let target = event.target;
-  //figure out if a button was clicked
-  if (target.tagName === "BUTTON") {
-    //figure out if I should be expelled
-    if (findSari(target.className) == true) {
-      //start visual effects
-      let snow = document.querySelector("#snow");
-      let impossibleDisplay = document.querySelector("#impossible");
-      impossibleDisplay.style.display = "block";
-      snow.style.display = "block";
-      setTimeout(() => {
-        snow.style.display = "none";
-        impossibleDisplay.style.display = "none";
-      }, 5000);
-    } else {
-      clickRemove(target.className); //pass id of the student that was clicked on to function
-    }
-  } else if (target.tagName === "TD") {
-    //figure out if a student was clicked
-    //get button id of the one in the same row
-    let rowBtn = target.closest("tr").querySelector("#button");
-    if (target.dataset.field === "lastname") {
-      showModal(rowBtn.className);
-    } else if (target.dataset.field === "name") {
-      showModal(rowBtn.className);
-    }
-  }
-}
-
-function getCount() {
-  //get number of students in total, in each house and expelled
-
-  let countTotal = allStudents.length + expelledStudents.length;
-  let countSlytherin = allStudents.filter(onlySlytherin).length;
-  let countGryffindor = allStudents.filter(onlyGryffindor).length;
-  let countHufflepuff = allStudents.filter(onlyHufflepuff).length;
-  let countRavenclaw = allStudents.filter(onlyRavenclaw).length;
-
-  document.querySelector("#totalNmbr").textContent =
-    "Students in total: " + countTotal;
-  document.querySelector("#slytheringNmbr").textContent =
-    "Slytherin: " + countSlytherin;
-  document.querySelector("#gryffindorNmbr").textContent =
-    "Gryffindor: " + countGryffindor;
-  document.querySelector("#hufflepuffNmbr").textContent =
-    "Hufflepuff: " + countHufflepuff;
-  document.querySelector("#ravenclawNmbr").textContent =
-    "Ravenclaw: " + countRavenclaw;
-  document.querySelector("#expeledNmbr").textContent =
-    "Students expeled: " + expelledStudents.length;
-}
-
-function showModal(studentID) {
-  let imageArr = [
-    "images/brown_i.png",
-    "images/finnigan_s.png",
-    "images/granger_h.png",
-    "images/jones_m.png",
-    "images/longbottom_n.png",
-    "images/patil_p.png",
-    "images/potter_h.png",
-    "images/thomas_d.png",
-    "images/weasley_r.png"
-  ];
-
-  modal = document.querySelector("#modal");
-  let nameSpan = document.querySelector("#firstname");
-  let lastNameSpan = document.querySelector("#lastname");
-  houseSpan = document.querySelector("#house");
-  bloodtypeSpan = document.querySelector("#bloodtype");
-  let quest = document.querySelector("#quest");
-  let img = document.querySelector("#potrait");
-  let caption = document.querySelector("#caption");
-  closeBtn = document.querySelector("#closeBtn");
-  sqaudBtn = document.querySelector("#squadBtn");
-
-  //add event listener
-  closeBtn.addEventListener("click", closeModal);
-  sqaudBtn.addEventListener("click", addToSquad);
-
-  //check which students id it is, set modal window properties accordingly
-  for (let i = 0; i < allStudents.length; i++) {
-    if (allStudents[i].id === studentID) {
-      img.src = imageArr[randomNmbr()];
-      caption.textContent = allStudents[i].name + " " + allStudents[i].lastname;
-      nameSpan.textContent = "Name: " + allStudents[i].name;
-      lastNameSpan.textContent = "Lastname: " + allStudents[i].lastname;
-      bloodtypeSpan.textContent = "Bloodtype: " + allStudents[i].bloodtype;
-      if (allStudents[i].house === "Hufflepuff") {
-        houseSpan.textContent = "House: Hufflepuff";
-        modal.style.backgroundColor = "yellow";
-        quest.src = "Hufflepuff.png";
-      } else if (allStudents[i].house === "Slytherin") {
-        houseSpan.textContent = "House: Slytherin";
-        modal.style.backgroundColor = "green";
-        quest.src = "Slytherin.png";
-      } else if (allStudents[i].house === "Gryffindor") {
-        houseSpan.textContent = "House: Gryffindor";
-        modal.style.backgroundColor = "red";
-        quest.src = "Gryffindor.png";
-      } else {
-        houseSpan.textContent = "House: Ravenclaw";
-        modal.style.backgroundColor = "darkblue";
-        quest.src = "Ravenclaw.png";
-      }
-    }
-    modal.style.display = "block";
-  }
-}
-
-function randomNmbr() {
-  return Math.floor(Math.random() * 9); //get a random number between 0 and 9
-}
-
-function closeModal() {
-  modal.style.display = "none";
-}
-
-function clickRemove(badStudent) {
-  toBeRemoved = findStudent(badStudent); // TODO: Figure out which element should be removed
-  const pos = allStudents.indexOf(toBeRemoved); // TODO: Find the element index in the array
-  allStudents.splice(pos, 1); // TODO: Splice that element from the array
-  expelledStudents.push(toBeRemoved); //Add  student to expelled list
-  displayList(allStudents);
-}
-
-function addToSquad(student) {
-  let squadStatus = document.querySelector("#squadStatus");
-
-  //TODO: Figure out if "Add"- button was clicked
-  if (sqaudBtn.textContent === "Add to Inquisitorial Squad") {
-    //check if requirements are true
-    if (bloodtypeSpan.textContent === "Bloodtype: pure") {
-      sqaudBtn.textContent = "Remove";
-      squadStatus.textContent = "Status: Inquisitorial Squad";
-
-      setTimeout(function() {
-        //Set Timer to 4 seconds for IS status
-        sqaudBtn.textContent = "Add to Inquisitorial Squad";
-        squadStatus.textContent = "Status: Not in Inquisitorial Squad";
-      }, 4000);
-    } else if (houseSpan.textContent === "House: Slytherin") {
-      sqaudBtn.textContent = "Remove";
-      squadStatus.textContent = "Status: Inquisitorial Squad";
-      setTimeout(function() {
-        sqaudBtn.textContent = "Add to Inquisitorial Squad";
-        squadStatus.textContent = "Status: Not in Inquisitorial Squad";
-      }, 4000);
-    } else {
-      alert("Cannot be added to Inquisitorial Squad");
-    }
-    //TODO: Figure out if "remove"- button was clicked
-  } else if (sqaudBtn.textContent === "Remove") {
-    sqaudBtn.textContent = "Add to Inquisitorial Squad";
-    squadStatus.textContent = "Status: Not in Inquisitorial Squad";
-  }
-}
-
-function findStudent(studentID) {
-  return allStudents.find(obj => obj.id === studentID);
-}
-function findSari(studentID) {
-  for (let i = 0; i < allStudents.length; i++) {
-    if (allStudents[i].id === studentID) {
-      if (allStudents[i].name === "Sari") {
-        return true;
-      }
-    }
   }
 }
 
@@ -403,27 +256,174 @@ function displayStudent(student) {
   getCount();
 }
 
-function hackBloodtype(student) {
-  let bloodtypesArr = ["half", "muggle"];
+function getCount() {
+  //get number of students in total, in each house and expelled
 
-  if (student.bloodtype === "pure") {
-    student.bloodtype = bloodtypesArr[randomBloodType()]; //get random bloodtype from array
-  } else if (student.bloodtype === "half") {
-    student.bloodtype = "pure";
-  } else if (student.bloodtype === "muggle") {
-    student.bloodtype = "pure";
+  let countTotal = allStudents.length + expelledStudents.length;
+  let countSlytherin = allStudents.filter(onlySlytherin).length;
+  let countGryffindor = allStudents.filter(onlyGryffindor).length;
+  let countHufflepuff = allStudents.filter(onlyHufflepuff).length;
+  let countRavenclaw = allStudents.filter(onlyRavenclaw).length;
+
+  document.querySelector("#totalNmbr").textContent =
+    "Students in total: " + countTotal;
+  document.querySelector("#slytheringNmbr").textContent =
+    "Slytherin: " + countSlytherin;
+  document.querySelector("#gryffindorNmbr").textContent =
+    "Gryffindor: " + countGryffindor;
+  document.querySelector("#hufflepuffNmbr").textContent =
+    "Hufflepuff: " + countHufflepuff;
+  document.querySelector("#ravenclawNmbr").textContent =
+    "Ravenclaw: " + countRavenclaw;
+  document.querySelector("#expeledNmbr").textContent =
+    "Students expeled: " + expelledStudents.length;
+}
+
+function clickList(event) {
+  let target = event.target;
+  //figure out if a button was clicked
+  if (target.tagName === "BUTTON") {
+    //figure out if I should be expelled
+    if (findSari(target.className) == true) {
+      //start visual effects
+      let snow = document.querySelector("#snow");
+      let impossibleDisplay = document.querySelector("#impossible");
+      impossibleDisplay.style.display = "block";
+      snow.style.display = "block";
+      setTimeout(() => {
+        snow.style.display = "none";
+        impossibleDisplay.style.display = "none";
+      }, 5000);
+    } else {
+      clickRemove(target.className); //pass id of the student that was clicked on to function
+    }
+  } else if (target.tagName === "TD") {
+    //figure out if a student was clicked
+    //get button id of the one in the same row
+    let rowBtn = target.closest("tr").querySelector("#button");
+    if (target.dataset.field === "lastname") {
+      showModal(rowBtn.className);
+    } else if (target.dataset.field === "name") {
+      showModal(rowBtn.className);
+    }
   }
 }
 
-function randomBloodType() {
-  return Math.floor(Math.random() * 2);
+function findStudent(studentID) {
+  return allStudents.find(obj => obj.id === studentID);
+}
+function findSari(studentID) {
+  for (let i = 0; i < allStudents.length; i++) {
+    if (allStudents[i].id === studentID) {
+      if (allStudents[i].name === "Sari") {
+        return true;
+      }
+    }
+  }
 }
 
-//code snippet from here: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-function uuidv4() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+function clickRemove(badStudent) {
+  toBeRemoved = findStudent(badStudent); // TODO: Figure out which element should be removed
+  const pos = allStudents.indexOf(toBeRemoved); // TODO: Find the element index in the array
+  allStudents.splice(pos, 1); // TODO: Splice that element from the array
+  expelledStudents.push(toBeRemoved); //Add  student to expelled list
+  displayList(allStudents);
+}
+
+function showModal(studentID) {
+  let imageArr = [
+    "images/brown_i.png",
+    "images/finnigan_s.png",
+    "images/granger_h.png",
+    "images/jones_m.png",
+    "images/longbottom_n.png",
+    "images/patil_p.png",
+    "images/potter_h.png",
+    "images/thomas_d.png",
+    "images/weasley_r.png"
+  ];
+
+  modal = document.querySelector("#modal");
+  let nameSpan = document.querySelector("#firstname");
+  let lastNameSpan = document.querySelector("#lastname");
+  houseSpan = document.querySelector("#house");
+  bloodtypeSpan = document.querySelector("#bloodtype");
+  let quest = document.querySelector("#quest");
+  let img = document.querySelector("#potrait");
+  let caption = document.querySelector("#caption");
+  closeBtn = document.querySelector("#closeBtn");
+  sqaudBtn = document.querySelector("#squadBtn");
+
+  //add event listener
+  closeBtn.addEventListener("click", closeModal);
+  sqaudBtn.addEventListener("click", addToSquad);
+
+  //check which students id it is, set modal window properties accordingly
+  for (let i = 0; i < allStudents.length; i++) {
+    if (allStudents[i].id === studentID) {
+      img.src = imageArr[randomNmbr()];
+      caption.textContent = allStudents[i].name + " " + allStudents[i].lastname;
+      nameSpan.textContent = "Name: " + allStudents[i].name;
+      lastNameSpan.textContent = "Lastname: " + allStudents[i].lastname;
+      bloodtypeSpan.textContent = "Bloodtype: " + allStudents[i].bloodtype;
+      if (allStudents[i].house === "Hufflepuff") {
+        houseSpan.textContent = "House: Hufflepuff";
+        modal.style.backgroundColor = "yellow";
+        quest.src = "Hufflepuff.png";
+      } else if (allStudents[i].house === "Slytherin") {
+        houseSpan.textContent = "House: Slytherin";
+        modal.style.backgroundColor = "green";
+        quest.src = "Slytherin.png";
+      } else if (allStudents[i].house === "Gryffindor") {
+        houseSpan.textContent = "House: Gryffindor";
+        modal.style.backgroundColor = "red";
+        quest.src = "Gryffindor.png";
+      } else {
+        houseSpan.textContent = "House: Ravenclaw";
+        modal.style.backgroundColor = "darkblue";
+        quest.src = "Ravenclaw.png";
+      }
+    }
+    modal.style.display = "block";
+  }
+}
+
+function randomNmbr() {
+  return Math.floor(Math.random() * 9); //get a random number between 0 and 9
+}
+
+function closeModal() {
+  modal.style.display = "none";
+}
+
+function addToSquad(student) {
+  let squadStatus = document.querySelector("#squadStatus");
+
+  //TODO: Figure out if "Add"- button was clicked
+  if (sqaudBtn.textContent === "Add to Inquisitorial Squad") {
+    //check if requirements are true
+    if (bloodtypeSpan.textContent === "Bloodtype: pure") {
+      sqaudBtn.textContent = "Remove";
+      squadStatus.textContent = "Status: Inquisitorial Squad";
+
+      setTimeout(function() {
+        //Set Timer to 4 seconds for IS status
+        sqaudBtn.textContent = "Add to Inquisitorial Squad";
+        squadStatus.textContent = "Status: Not in Inquisitorial Squad";
+      }, 4000);
+    } else if (houseSpan.textContent === "House: Slytherin") {
+      sqaudBtn.textContent = "Remove";
+      squadStatus.textContent = "Status: Inquisitorial Squad";
+      setTimeout(function() {
+        sqaudBtn.textContent = "Add to Inquisitorial Squad";
+        squadStatus.textContent = "Status: Not in Inquisitorial Squad";
+      }, 4000);
+    } else {
+      alert("Cannot be added to Inquisitorial Squad");
+    }
+    //TODO: Figure out if "remove"- button was clicked
+  } else if (sqaudBtn.textContent === "Remove") {
+    sqaudBtn.textContent = "Add to Inquisitorial Squad";
+    squadStatus.textContent = "Status: Not in Inquisitorial Squad";
+  }
 }
