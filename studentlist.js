@@ -35,6 +35,7 @@ function init() {
 }
 
 function loadJSON() {
+  //load JSON data from the both provided files
   fetch(bloodtypeList)
     .then(response => response.json())
     .then(bloodData => {
@@ -58,16 +59,17 @@ function prepareObjects(jsonData) {
   me.bloodtype = "half";
   allStudents.push(me);
 
-  //"massage" data from JSON file
   jsonData.forEach(jsonObject => {
     //create new object
     const student = Object.create(Student);
+
     //get data from json and set properties
     const parts = jsonObject.fullname.split(" ");
     student.name = parts[0];
     student.lastname = parts[1];
     student.house = jsonObject.house;
     student.id = uuidv4();
+
     checkBloodtype(student);
     if (student.bloodtype === undefined) {
       student.bloodtype = "muggle";
@@ -84,6 +86,7 @@ function prepareObjects(jsonData) {
 }
 
 function checkBloodtype(student) {
+  //check if lastname is on one of the lists we got from the JSON file
   for (
     let i = 0, x = 0;
     i < halfBlooded.length, x < pureBlooded.length;
@@ -98,14 +101,16 @@ function checkBloodtype(student) {
 }
 
 function prepareBloodtypes(data) {
+  //store lastname in global arrays
   data.half.forEach(name => halfBlooded.push(name));
   data.pure.forEach(name2 => pureBlooded.push(name2));
 }
 
 function clickSort(event) {
+  //check if a sorting option was pressed
   const action = event.target.dataset.action;
   if (action === "sortFirstname") {
-    sorting_direction = "firstname";
+    sorting_direction = "firstname"; //store sorting option type in a global variable
     prepareList();
   } else if (action === "sortLastname") {
     sorting_direction = "lastname";
@@ -117,9 +122,10 @@ function clickSort(event) {
 }
 
 function clickFilter(event) {
+  //check if a filter option was pressed
   const action = event.target.dataset.action;
   if (action === "filterSlytherin") {
-    filtering_direction = "slytherin";
+    filtering_direction = "slytherin"; //store filter option type in a global variable
     prepareList();
   } else if (action === "filterHufflepuff") {
     filtering_direction = "hufflepuff";
@@ -138,9 +144,9 @@ function clickFilter(event) {
 
 function clickList(event) {
   let target = event.target;
-  //to figure out if a button was clicked
+  //figure out if a button was clicked
   if (target.tagName === "BUTTON") {
-    //To figure out if I should be expelled
+    //figure out if I should be expelled
     if (findSari(target.className) == true) {
       //start visual effects
       let snow = document.querySelector("#snow");
@@ -152,10 +158,11 @@ function clickList(event) {
         impossibleDisplay.style.display = "none";
       }, 5000);
     } else {
-      clickRemove(target.className);
+      clickRemove(target.className); //pass id of the student that was clicked on to function
     }
-    //to figure out if a student was clicked
   } else if (target.tagName === "TD") {
+    //figure out if a student was clicked
+    //get button id of the one in the same row
     let rowBtn = target.closest("tr").querySelector("#button");
     if (target.dataset.field === "lastname") {
       showModal(rowBtn.className);
@@ -167,6 +174,7 @@ function clickList(event) {
 
 function getCount() {
   //get number of students in total, in each house and expelled
+
   let countTotal = allStudents.length + expelledStudents.length;
   let countSlytherin = allStudents.filter(onlySlytherin).length;
   let countGryffindor = allStudents.filter(onlyGryffindor).length;
@@ -188,7 +196,6 @@ function getCount() {
 }
 
 function showModal(studentID) {
-  //variables
   let imageArr = [
     "images/brown_i.png",
     "images/finnigan_s.png",
@@ -216,6 +223,7 @@ function showModal(studentID) {
   closeBtn.addEventListener("click", closeModal);
   sqaudBtn.addEventListener("click", addToSquad);
 
+  //check which students id it is, set modal window properties accordingly
   for (let i = 0; i < allStudents.length; i++) {
     if (allStudents[i].id === studentID) {
       img.src = imageArr[randomNmbr()];
@@ -246,7 +254,7 @@ function showModal(studentID) {
 }
 
 function randomNmbr() {
-  return Math.floor(Math.random() * 9);
+  return Math.floor(Math.random() * 9); //get a random number between 0 and 9
 }
 
 function closeModal() {
@@ -254,14 +262,10 @@ function closeModal() {
 }
 
 function clickRemove(badStudent) {
-  // TODO: Figure out which element should be removed
-  toBeRemoved = findStudent(badStudent);
-  // TODO: Find the element index in the array
-  const pos = allStudents.indexOf(toBeRemoved);
-  // TODO: Splice that element from the array
-  allStudents.splice(pos, 1);
-  //Add  student to expelled list
-  expelledStudents.push(toBeRemoved);
+  toBeRemoved = findStudent(badStudent); // TODO: Figure out which element should be removed
+  const pos = allStudents.indexOf(toBeRemoved); // TODO: Find the element index in the array
+  allStudents.splice(pos, 1); // TODO: Splice that element from the array
+  expelledStudents.push(toBeRemoved); //Add  student to expelled list
   displayList(allStudents);
 }
 
@@ -270,10 +274,13 @@ function addToSquad(student) {
 
   //TODO: Figure out if "Add"- button was clicked
   if (sqaudBtn.textContent === "Add to Inquisitorial Squad") {
+    //check if requirements are true
     if (bloodtypeSpan.textContent === "Bloodtype: pure") {
       sqaudBtn.textContent = "Remove";
       squadStatus.textContent = "Status: Inquisitorial Squad";
+
       setTimeout(function() {
+        //Set Timer to 4 seconds for IS status
         sqaudBtn.textContent = "Add to Inquisitorial Squad";
         squadStatus.textContent = "Status: Not in Inquisitorial Squad";
       }, 4000);
@@ -285,8 +292,9 @@ function addToSquad(student) {
         squadStatus.textContent = "Status: Not in Inquisitorial Squad";
       }, 4000);
     } else {
-      alert("can't be added to  Inquisitorial Squad");
+      alert("Cannot be added to Inquisitorial Squad");
     }
+    //TODO: Figure out if "remove"- button was clicked
   } else if (sqaudBtn.textContent === "Remove") {
     sqaudBtn.textContent = "Add to Inquisitorial Squad";
     squadStatus.textContent = "Status: Not in Inquisitorial Squad";
@@ -307,6 +315,7 @@ function findSari(studentID) {
 }
 
 function prepareList() {
+  //the actual sorting regarding the value of the global variable
   allStudents.sort((a, b) => {
     if (sorting_direction === "firstname") {
       if (a.name < b.name) {
@@ -329,6 +338,8 @@ function prepareList() {
     }
   });
 
+  //add only the selected houses to the filtered list
+  //pass filtered list on to displayList function
   let filteredList;
   if (filtering_direction === "slytherin") {
     filteredList = allStudents.filter(onlySlytherin);
@@ -396,7 +407,7 @@ function hackBloodtype(student) {
   let bloodtypesArr = ["half", "muggle"];
 
   if (student.bloodtype === "pure") {
-    student.bloodtype = bloodtypesArr[randomBloodType()];
+    student.bloodtype = bloodtypesArr[randomBloodType()]; //get random bloodtype from array
   } else if (student.bloodtype === "half") {
     student.bloodtype = "pure";
   } else if (student.bloodtype === "muggle") {
@@ -408,7 +419,7 @@ function randomBloodType() {
   return Math.floor(Math.random() * 2);
 }
 
-//hinschreiben von wem das code snippet ist
+//code snippet from here: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
     var r = (Math.random() * 16) | 0,
