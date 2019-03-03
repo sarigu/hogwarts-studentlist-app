@@ -65,6 +65,14 @@ function prepareObjects(jsonData) {
     allStudents.push(student);
   });
 
+  const me = new Object();
+  me.name = "Sari";
+  me.lastname = "Guci";
+  me.house = "Hufflepuff";
+  me.id = uuidv4();
+  me.bloodtype = "half";
+  allStudents.push(me);
+
   prepareList(allStudents);
 }
 
@@ -125,11 +133,11 @@ function clickList(event) {
 
   let target = event.target;
   if (target.tagName === "BUTTON") {
-    // TODO: Figure out if it was a remove-button
-    //console.log(target.className); //is the buttons id
-    let badStudent = target.className;
-    // TODO: If so, call clickRemove
-    clickRemove(badStudent);
+    if (findSari(target.className) == true) {
+      alert("das geht nicht!");
+    } else {
+      clickRemove(target.className);
+    }
   } else if (target.tagName === "TD") {
     let rowBtn = target.closest("tr").querySelector("#button");
     if (target.dataset.field === "lastname") {
@@ -231,7 +239,7 @@ function clickRemove(badStudent) {
 
   //add to expelled list
   expelledStudents.push(toBeRemoved);
-  //console.table(expelledStudents);
+  console.table(expelledStudents);
 
   // Re-display the list
   displayList(allStudents);
@@ -248,7 +256,7 @@ function addToSquad(student) {
       sqaudBtn.textContent = "Remove";
       squadStatus.textContent = "Status: Inquisitorial Squad";
     } else {
-      console.log("cant' be added");
+      alert("can't be added to  Inquisitorial Squad");
     }
   } else if (sqaudBtn.textContent === "Remove") {
     sqaudBtn.textContent = "Add to Inquisitorial Squad";
@@ -258,6 +266,15 @@ function addToSquad(student) {
 
 function findStudent(studentID) {
   return allStudents.find(obj => obj.id === studentID);
+}
+function findSari(studentID) {
+  for (let i = 0; i < allStudents.length; i++) {
+    if (allStudents[i].id === studentID) {
+      if (allStudents[i].name === "Sari") {
+        return true;
+      }
+    }
+  }
 }
 
 function prepareList() {
