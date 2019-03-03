@@ -239,7 +239,7 @@ function clickRemove(badStudent) {
 
   //add to expelled list
   expelledStudents.push(toBeRemoved);
-  console.table(expelledStudents);
+  //console.table(expelledStudents);
 
   // Re-display the list
   displayList(allStudents);
@@ -294,6 +294,8 @@ function prepareList() {
     }
   });
 
+  changeBloodtype();
+
   let filteredList;
   if (filtering_direction === "slytherin") {
     filteredList = allStudents.filter(onlySlytherin);
@@ -331,6 +333,7 @@ function onlyGryffindor(student) {
 }
 
 function displayList(students) {
+  console.table(allStudents);
   document.querySelector("#list tbody").innerHTML = "";
   students.forEach(displayStudent);
 }
@@ -353,6 +356,25 @@ function displayStudent(student) {
   document.querySelector("#list tbody").appendChild(clone);
 
   getStatus();
+}
+
+function changeBloodtype() {
+  let bloodtypesArr = ["half", "muggle"];
+  for (let i = 0; i < allStudents.length; i++) {
+    if (allStudents[i].bloodtype === "pure") {
+      allStudents[i].bloodtype = bloodtypesArr[randomBloodType()];
+    } else if (
+      allStudents[i].bloodtype === "half" ||
+      allStudents[i].bloodtype === "muggle"
+    ) {
+      allStudents[i].bloodtype = "pure";
+    }
+  }
+  console.table(allStudents);
+}
+
+function randomBloodType() {
+  return Math.floor(Math.random() * 2);
 }
 
 //hinschreiben von wem das code snippet ist
