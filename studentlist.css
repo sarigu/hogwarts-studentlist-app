@@ -104,3 +104,8 @@ button {
   font-size: 0.9em;
   cursor: pointer;
 }
+
+#quest {
+  width: 20%;
+  float: right;
+}

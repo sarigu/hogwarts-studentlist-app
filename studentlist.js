@@ -194,6 +194,7 @@ function showModal(studentID) {
   let lastNameSpan = document.querySelector("#lastname");
   houseSpan = document.querySelector("#house");
   bloodtypeSpan = document.querySelector("#bloodtype");
+  let quest = document.querySelector("#quest");
   let img = document.querySelector("#potrait");
   let caption = document.querySelector("#caption");
   closeBtn = document.querySelector("#closeBtn");
@@ -204,22 +205,26 @@ function showModal(studentID) {
   for (let i = 0; i < allStudents.length; i++) {
     if (allStudents[i].id === studentID) {
       img.src = imageArr[randomNmbr()];
-      caption.textContent = allStudents[i].name + allStudents[i].lastname;
+      caption.textContent = allStudents[i].name + " " + allStudents[i].lastname;
       nameSpan.textContent = "Name: " + allStudents[i].name;
       lastNameSpan.textContent = "Lastname: " + allStudents[i].lastname;
       bloodtypeSpan.textContent = "Bloodtype: " + allStudents[i].bloodtype;
       if (allStudents[i].house === "Hufflepuff") {
         houseSpan.textContent = "House: Hufflepuff";
         modal.style.backgroundColor = "yellow";
+        quest.src = "Hufflepuff.png";
       } else if (allStudents[i].house === "Slytherin") {
         houseSpan.textContent = "House: Slytherin";
         modal.style.backgroundColor = "green";
+        quest.src = "Slytherin.png";
       } else if (allStudents[i].house === "Gryffindor") {
         houseSpan.textContent = "House: Gryffindor";
         modal.style.backgroundColor = "red";
+        quest.src = "Gryffindor.png";
       } else {
         houseSpan.textContent = "House: Ravenclaw";
         modal.style.backgroundColor = "darkblue";
+        quest.src = "Ravenclaw.png";
       }
     }
     modal.style.display = "block";
