@@ -251,20 +251,25 @@ function clickRemove(badStudent) {
 
 function addToSquad(student) {
   let squadStatus = document.querySelector("#squadStatus");
-  console.log(houseSpan.textContent);
+
   if (sqaudBtn.textContent === "Add to Inquisitorial Squad") {
     if (bloodtypeSpan.textContent === "Bloodtype: pure") {
       sqaudBtn.textContent = "Remove";
       squadStatus.textContent = "Status: Inquisitorial Squad";
+      setTimeout(function() {
+        sqaudBtn.textContent = "Add to Inquisitorial Squad";
+        squadStatus.textContent = "Status: Not in Inquisitorial Squad";
+      }, 4000);
     } else if (houseSpan.textContent === "House: Slytherin") {
       sqaudBtn.textContent = "Remove";
       squadStatus.textContent = "Status: Inquisitorial Squad";
+      setTimeout(function() {
+        sqaudBtn.textContent = "Add to Inquisitorial Squad";
+        squadStatus.textContent = "Status: Not in Inquisitorial Squad";
+      }, 4000);
     } else {
       alert("can't be added to  Inquisitorial Squad");
     }
-  } else if (sqaudBtn.textContent === "Remove") {
-    sqaudBtn.textContent = "Add to Inquisitorial Squad";
-    squadStatus.textContent = "Status: Not in Inquisitorial Squad";
   }
 }
 
