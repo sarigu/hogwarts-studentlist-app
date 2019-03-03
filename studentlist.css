@@ -1,11 +1,106 @@
+#firstHalf {
+  background-color: rgb(23, 37, 67);
+  padding: 2em;
+  color: whitesmoke;
+}
+
+#Nmbrs span {
+  padding-right: 0.9em;
+}
+
+.heading {
+  font-size: 1.3em;
+}
+
+#secondHalf {
+  background-color: rgb(242, 223, 221);
+  display: grid;
+  grid-template-columns: 1fr, 1fr;
+  grid-template-areas: "sorting-area ." "table-area  modal-area ";
+}
+
+#sorting {
+  grid-area: sorting-area;
+  margin-left: 2.1em;
+}
+
+#filtering {
+  grid-area: sorting-area;
+  margin-left: 25em;
+}
+
+#sorting,
+#filtering {
+  padding-top: 2em;
+  padding-right: 1em;
+  margin-bottom: 2em;
+}
+
+#list {
+  margin-left: 2.1em;
+  grid-area: table-area;
+}
+
+#list td {
+  padding: 0.7em;
+
+  text-align: left;
+}
+
+th {
+  text-align: left;
+}
+
+table,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+button {
+  background-color: rgb(247, 200, 197);
+  border: none;
+  color: white;
+  padding: 0.2em 0.4em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
 #modal {
   display: none; /* Hidden by default */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  margin-left: -33.5em;
   left: 0;
   top: 0;
   width: 20em; /* Full width */
-  height: 2em; /* Full height */
+  height: 20em; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: lightblue;
+  grid-area: modal-area;
+  padding-left: 1em;
+}
+
+#modal #closeBtn {
+  font-size: 2em;
+  float: right;
+  cursor: pointer;
+}
+
+#modal img {
+  margin-top: 1em;
+}
+
+#squadBtn {
+  background-color: rgb(247, 200, 197);
+  border: none;
+  color: white;
+  padding: 0.2em 0.4em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.9em;
+  cursor: pointer;
 }

@@ -163,7 +163,7 @@ function getStatus() {
   let ravenclawNmbr = allStudents.filter(onlyRavenclaw).length;
 
   document.querySelector("#totalNmbr").textContent =
-    "Total Number of students: " + totalNmbr;
+    "Students in total: " + totalNmbr;
   document.querySelector("#slytheringNmbr").textContent =
     "Slytherin: " + slytherinNmbr;
   document.querySelector("#gryffindorNmbr").textContent =
@@ -198,7 +198,7 @@ function showModal(studentID) {
   let caption = document.querySelector("#caption");
   closeBtn = document.querySelector("#closeBtn");
   closeBtn.addEventListener("click", closeModal);
-  sqaudBtn = document.querySelector("#squad");
+  sqaudBtn = document.querySelector("#squadBtn");
   sqaudBtn.addEventListener("click", addToSquad);
 
   for (let i = 0; i < allStudents.length; i++) {
