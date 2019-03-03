@@ -109,6 +109,9 @@ function clickSort(event) {
     // event.preventDefault();
     sorting_direction = "lastname";
     prepareList();
+  } else if (action === "sortHouses") {
+    sorting_direction = "houses";
+    prepareList();
   }
 }
 
@@ -300,6 +303,12 @@ function prepareList() {
       } else {
         return -1;
       }
+    } else if (sorting_direction === "houses") {
+      if (a.house < b.house) {
+        return -1;
+      } else {
+        return 1;
+      }
     }
   });
 
@@ -318,11 +327,9 @@ function prepareList() {
     displayList(filteredList);
   } else if (filtering_direction === "allHouses") {
     filteredList = allStudents;
-    filteredList.sort(houseSort);
     displayList(filteredList);
   } else {
     filteredList = allStudents;
-    filteredList.sort(houseSort);
     displayList((filteredList = allStudents));
   }
 }
@@ -391,12 +398,4 @@ function uuidv4() {
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
-}
-
-function houseSort(a, b) {
-  if (a.house < b.house) {
-    return -1;
-  } else {
-    return 1;
-  }
 }

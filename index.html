@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="studentlist.css" type="text/css" />
   </head>
   <body>
-    <h1>Students 1991</h1>
+    <h1>Hogwarts Students Administration</h1>
     <div id="Nmbr">
       <span id="totalNmbr"></span>
       <span id="slytheringNmbr"></span>
@@ -20,6 +20,7 @@
     <div id="sorting">
       <button data-action="sortFirstname">First Name</button>
       <button data-action="sortLastname">Last Name</button>
+      <button data-action="sortHouses">Houses</button>
     </div>
     <div id="filtering">
       <button data-action="filterSlytherin">Slytherin</button>
@@ -28,6 +29,7 @@
       <button data-action="filterGryffindor">Gryffindor</button>
       <button data-action="sortHouses">All Houses</button>
     </div>
+
     <table id="list">
       <thead>
         <tr>
@@ -35,6 +37,7 @@
           <th>Lastname</th>
           <th>House</th>
           <th>Bloodtype</th>
+          <th>Expel</th>
         </tr>
       </thead>
       <tbody>
