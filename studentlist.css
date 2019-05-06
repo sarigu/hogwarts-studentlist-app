@@ -34,10 +34,14 @@ span {
 }
 
 #secondHalf {
-  background-color: rgb(242, 223, 221);
+  background-color: rgb(233, 233, 233);
   display: grid;
   grid-template-columns: 1fr, 1fr;
   grid-template-areas: "sorting-area ." "table-area  modal-area ";
+}
+
+#secondHalf span {
+  color: rgb(23, 37, 67);
 }
 
 /*Sorting and Filter*/
@@ -62,7 +66,7 @@ span {
 #sorting :hover,
 #filtering :hover,
 button:hover {
-  background-color: rgb(247, 182, 176);
+  background-color: rgb(187, 186, 186);
 }
 
 /*Student list*/
@@ -75,7 +79,6 @@ button:hover {
 
 #list td {
   padding: 0.7em;
-
   text-align: left;
 }
 
@@ -85,12 +88,12 @@ th {
 
 table,
 td {
-  border: 1px solid black;
+  border: 1px solid rgb(23, 37, 67);
   border-collapse: collapse;
 }
 
 button {
-  background-color: rgb(247, 200, 197);
+  background-color: rgb(207, 206, 206);
   border: none;
   color: white;
   padding: 0.2em 0.4em;
@@ -104,17 +107,31 @@ button {
 /*Modal*/
 
 #modal {
-  display: none;
-  margin-left: -31.9em;
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 1em; /* Location of the box */
+  padding-left: 1.5em;
+  padding-right: 1em;
+  left: 0;
+  top: 0;
   width: 20em;
   height: 22em;
-  background-color: white;
-  grid-area: modal-area;
-  padding-left: 1em;
+  margin: 12% 42%;
+  animation: fadeIn 0.5s;
 }
 
 #modal img {
   margin-top: 1em;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 #closeBtn {
@@ -130,7 +147,7 @@ button {
 }
 
 #squadBtn {
-  background-color: lavenderblush;
+  background-color: white;
   color: black;
   border: none;
 
@@ -160,7 +177,7 @@ button {
   margin-left: 28em;
   margin-top: 20em;
   display: none;
-  border-radius: 2.5em;
+  border-radius: 1em;
 }
 
 #impossible p {

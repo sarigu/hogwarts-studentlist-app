@@ -380,7 +380,7 @@ function showModal(studentID) {
         quest.src = "Gryffindor.png";
       } else {
         houseSpan.textContent = "House: Ravenclaw";
-        modal.style.backgroundColor = "darkblue";
+        modal.style.backgroundColor = "rgb(67, 67, 224)";
         quest.src = "Ravenclaw.png";
       }
     }
