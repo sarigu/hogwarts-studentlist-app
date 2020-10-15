@@ -1,84 +1,126 @@
-@import url("https://fonts.googleapis.com/css?family=Sigmar+One");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 
-h1 {
-  font-family: "Sigmar One", cursive;
+body{
+  font-family: 'Lato', sans-serif;
+  width:100%;
+  letter-spacing: 1px;
+  margin:0px;
+  padding:0px;
 }
 
-.heading {
-  font-family: "Sigmar One", cursive;
-  font-size: 0.2em;
+button, #squadBtn {
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.8em;
+  cursor: pointer;
 }
 
-p,
-td,
-th,
-button,
-span {
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.91em;
-}
+/* ///////   status section   ///////////*/ 
 
-#firstHalf {
+#status-section {
   background-color: rgb(23, 37, 67);
   padding: 2em;
-  color: whitesmoke;
+  color: white;
 }
 
-#Nmbrs span {
-  padding-right: 0.9em;
+#status-section h1{
+  text-align: center;
+  margin:50px 0 40px 0;
+  font-weight: 900;
+  font-size: 2em;
 }
 
-.heading {
-  font-size: 1.3em;
+#status-container{
+  display: flex;
+  width:80vw;
+  margin:auto;
+  font-weight: bold;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-#secondHalf {
-  background-color: rgb(233, 233, 233);
-  display: grid;
-  grid-template-columns: 1fr, 1fr;
-  grid-template-areas: "sorting-area ." "table-area  modal-area ";
+#status-container div{
+  display: flex;
+  align-items: center;
+  padding:10px;
 }
 
-#secondHalf span {
+#status-container span{
+  background-color: rgb(98, 110, 136);
+  width:40px;
+  border-radius: 10px;
+  margin-left:5px;
+  font-weight: 900;
+  padding:5px;
+  text-align: center;
+}
+
+/* ///////   student list section   ///////////*/ 
+
+#student-list-container {
+  background-color: rgb(242, 223, 221);
+  margin:0;
+  padding:0 0 200px 0;
+}
+
+#student-list-container span {
   color: rgb(23, 37, 67);
 }
 
-/*Sorting and Filter*/
+/*Sorting and filtering*/
 
-#sorting {
-  grid-area: sorting-area;
-  margin-left: 2.1em;
+#sorting-filtering-container{
+  display: flex;
+  flex-wrap: wrap;
+  padding:50px 0 50px 0;
+  margin:auto;
+  justify-content: space-around;
+  width:80vw;
 }
 
-#filtering {
-  grid-area: sorting-area;
-  margin-left: 26.5em;
+#sorting, #filtering{
+  display: flex;
+  align-items: center;
 }
 
-#sorting,
-#filtering {
-  padding-top: 2em;
-  padding-right: 1em;
-  margin-bottom: 2em;
+#sorting *, #filtering *{
+  margin-right:10px;
 }
 
-#sorting :hover,
-#filtering :hover,
-button:hover {
-  background-color: rgb(187, 186, 186);
+#sorting button, #filtering button, #expel-button, #squadBtn{
+  background-color: rgb(240, 207, 204);
+  border-radius: 10px;
+  margin-left:5px;
+  font-weight: 900;
+  padding:8px;
+  text-align: center;
+}
+
+#sorting button:hover, #filtering button:hover , #expel-button:hover{
+  background-color: rgb(240, 189, 184);
+  transition: background-color 0.3s ease;
+}
+
+.selected{
+  background-color: rgb(236, 166, 159) !important; 
 }
 
 /*Student list*/
 
 #list {
-  margin-left: 2.1em;
-  grid-area: table-area;
-  margin-bottom: 4em;
+  margin:auto;
+  justify-content: space-evenly;
+  width:70vw;
+}
+
+#list:hover {
+  cursor: pointer;
 }
 
 #list td {
-  padding: 0.7em;
+  padding:1em;
   text-align: left;
 }
 
@@ -92,80 +134,52 @@ td {
   border-collapse: collapse;
 }
 
-button {
-  background-color: rgb(207, 206, 206);
-  border: none;
-  color: white;
-  padding: 0.2em 0.4em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 0.9em;
-  cursor: pointer;
-}
-
 /*Modal*/
 
 #modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 1em; /* Location of the box */
-  padding-left: 1.5em;
-  padding-right: 1em;
+  padding:1.5em;
   left: 0;
   top: 0;
   width: 20em;
   height: 22em;
+  opacity: 1;
   margin: 12% 42%;
-  animation: fadeIn 0.5s;
+  border-radius: 10px;
+  transition: opacity 0.9s ease;
 }
 
 #modal img {
   margin-top: 1em;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 #closeBtn {
   font-size: 2em;
   float: right;
   cursor: pointer;
-  margin-right: 0.2em;
 }
 
 #content {
-  margin-top: 1em;
-  padding: 0.2em;
+  margin: 15px 0 15px 0;
+ display: flex;
+ flex-direction: column;
+}
+
+#content span {
+  padding:2px 0;
 }
 
 #squadBtn {
   background-color: white;
   color: black;
-  border: none;
-
-  padding: 0.4em 0.8em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 0.9em;
-  cursor: pointer;
-  margin-top: 1em;
 }
 
 #quest {
   width: 20%;
   float: right;
 }
-
-/*Visual Effects*/
 
 #impossible {
   width: 20em;
@@ -185,40 +199,3 @@ button {
   margin-top: 2.6em;
 }
 
-/*This is a slightly modified code snippet from here: https://codepen.io/matchboxhero/pen/JrLJeb?editors=1100*/
-#snow {
-  position: absolute;
-  min-width: 100vw;
-  min-height: 100vh;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  display: none;
-}
-
-.snow .svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-#snowToplayer {
-  transform: translateY(-768px);
-  animation: fall 5.5s linear;
-  fill: lemonchiffon;
-}
-
-#snowBottomlayer {
-  transform: translateY(-768px);
-  fill: lemonchiffon;
-  animation: fall 8s linear;
-}
-
-@keyframes fall {
-  100% {
-    transform: translateY(0);
-  }
-}
-
-/* End of code snippet from here: https://codepen.io/matchboxhero/pen/JrLJeb?editors=1100*/

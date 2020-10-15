@@ -87,7 +87,7 @@ function prepareObjects(jsonData) {
 
 //code snippet from here: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function uuidv4() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -105,7 +105,7 @@ function checkBloodtype(student) {
   for (
     let i = 0, x = 0;
     i < halfBlooded.length, x < pureBlooded.length;
-    i++, x++
+    i++ , x++
   ) {
     if (student.lastname === halfBlooded[i]) {
       student.bloodtype = "half";
@@ -133,6 +133,10 @@ function randomBloodType() {
 
 function clickSort(event) {
   //check if a sorting option was pressed
+  event.target.parentElement.querySelectorAll(".selected").forEach(event =>
+    event.classList.remove("selected"));
+  event.target.classList.toggle("selected");
+
   const action = event.target.dataset.action;
   if (action === "sortFirstname") {
     sorting_direction = "firstname"; //store sorting option type in a global variable
@@ -147,6 +151,9 @@ function clickSort(event) {
 }
 
 function clickFilter(event) {
+  event.target.parentElement.querySelectorAll(".selected").forEach(event =>
+    event.classList.remove("selected"));
+  event.target.classList.toggle("selected");
   //check if a filter option was pressed
   const action = event.target.dataset.action;
   if (action === "filterSlytherin") {
@@ -248,7 +255,7 @@ function displayStudent(student) {
   clone.querySelector("[data-field=house]").textContent = student.house;
   clone.querySelector("[data-field=bloodtype]").textContent = student.bloodtype;
 
-  clone.querySelector("#button").className = student.id;
+  clone.querySelector("#expel-button").className = student.id;
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
@@ -258,25 +265,18 @@ function displayStudent(student) {
 
 function getCount() {
   //get number of students in total, in each house and expelled
-
   let countTotal = allStudents.length + expelledStudents.length;
   let countSlytherin = allStudents.filter(onlySlytherin).length;
   let countGryffindor = allStudents.filter(onlyGryffindor).length;
   let countHufflepuff = allStudents.filter(onlyHufflepuff).length;
   let countRavenclaw = allStudents.filter(onlyRavenclaw).length;
 
-  document.querySelector("#totalNmbr").textContent =
-    "Students in total: " + countTotal;
-  document.querySelector("#slytheringNmbr").textContent =
-    "Slytherin: " + countSlytherin;
-  document.querySelector("#gryffindorNmbr").textContent =
-    "Gryffindor: " + countGryffindor;
-  document.querySelector("#hufflepuffNmbr").textContent =
-    "Hufflepuff: " + countHufflepuff;
-  document.querySelector("#ravenclawNmbr").textContent =
-    "Ravenclaw: " + countRavenclaw;
-  document.querySelector("#expeledNmbr").textContent =
-    "Students expeled: " + expelledStudents.length;
+  document.querySelector("#totalNmbr").textContent = countTotal;
+  document.querySelector("#slytheringNmbr").textContent = countSlytherin;
+  document.querySelector("#gryffindorNmbr").textContent = countGryffindor;
+  document.querySelector("#hufflepuffNmbr").textContent = countHufflepuff;
+  document.querySelector("#ravenclawNmbr").textContent = countRavenclaw;
+  document.querySelector("#expeledNmbr").textContent = expelledStudents.length;
 }
 
 function clickList(event) {
@@ -286,21 +286,18 @@ function clickList(event) {
     //figure out if I should be expelled
     if (findSari(target.className) == true) {
       //start visual effects
-      let snow = document.querySelector("#snow");
       let impossibleDisplay = document.querySelector("#impossible");
       impossibleDisplay.style.display = "block";
-      snow.style.display = "block";
       setTimeout(() => {
-        snow.style.display = "none";
         impossibleDisplay.style.display = "none";
-      }, 5000);
+      }, 1200);
     } else {
       clickRemove(target.className); //pass id of the student that was clicked on to function
     }
   } else if (target.tagName === "TD") {
     //figure out if a student was clicked
     //get button id of the one in the same row
-    let rowBtn = target.closest("tr").querySelector("#button");
+    let rowBtn = target.closest("tr").querySelector("#expel-button");
     if (target.dataset.field === "lastname") {
       showModal(rowBtn.className);
     } else if (target.dataset.field === "name") {
@@ -369,19 +366,19 @@ function showModal(studentID) {
       if (allStudents[i].house === "Hufflepuff") {
         houseSpan.textContent = "House: Hufflepuff";
         modal.style.backgroundColor = "yellow";
-        quest.src = "Hufflepuff.png";
+        quest.src = "images/Hufflepuff.png";
       } else if (allStudents[i].house === "Slytherin") {
         houseSpan.textContent = "House: Slytherin";
         modal.style.backgroundColor = "green";
-        quest.src = "Slytherin.png";
+        quest.src = "images/Slytherin.png";
       } else if (allStudents[i].house === "Gryffindor") {
         houseSpan.textContent = "House: Gryffindor";
         modal.style.backgroundColor = "red";
-        quest.src = "Gryffindor.png";
+        quest.src = "images/Gryffindor.png";
       } else {
         houseSpan.textContent = "House: Ravenclaw";
         modal.style.backgroundColor = "rgb(67, 67, 224)";
-        quest.src = "Ravenclaw.png";
+        quest.src = "images/Ravenclaw.png";
       }
     }
     modal.style.display = "block";
@@ -406,7 +403,7 @@ function addToSquad(student) {
       sqaudBtn.textContent = "Remove";
       squadStatus.textContent = "Status: Inquisitorial Squad";
 
-      setTimeout(function() {
+      setTimeout(function () {
         //Set Timer to 4 seconds for IS status
         sqaudBtn.textContent = "Add to Inquisitorial Squad";
         squadStatus.textContent = "Status: Not in Inquisitorial Squad";
@@ -414,7 +411,7 @@ function addToSquad(student) {
     } else if (houseSpan.textContent === "House: Slytherin") {
       sqaudBtn.textContent = "Remove";
       squadStatus.textContent = "Status: Inquisitorial Squad";
-      setTimeout(function() {
+      setTimeout(function () {
         sqaudBtn.textContent = "Add to Inquisitorial Squad";
         squadStatus.textContent = "Status: Not in Inquisitorial Squad";
       }, 4000);
